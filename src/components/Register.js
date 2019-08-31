@@ -18,11 +18,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Login = () => {
+const Register = () => {
   const classes = useStyles()
   const [values, setValues] = React.useState({
     email: '',
     password: '',
+    password2: '',
   })
 
   const handleChange = name => event => {
@@ -48,12 +49,21 @@ const Login = () => {
         onChange={handleChange('password')}
         margin="normal"
       />
-    <br />
-    <Button variant="outlined" color="primary" className={classes.button}>
-      Login
-    </Button>
+      <br />
+      <TextField
+        id="password2"
+        label="Password Confirmation"
+        className={classes.textField}
+        value={values.password2}
+        onChange={handleChange('password2')}
+        margin="normal"
+      />
+      <br />
+      <Button variant="outlined" color="primary" className={classes.button}>
+        Register
+      </Button>
     </div>
   )
 }
 
-export default Login
+export default Register

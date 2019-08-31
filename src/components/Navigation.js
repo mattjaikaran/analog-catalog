@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -7,6 +8,15 @@ import InputBase from '@material-ui/core/InputBase'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +24,16 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit'
+  },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
   },
   title: {
     flexGrow: 1,
@@ -64,6 +84,69 @@ const useStyles = makeStyles(theme => ({
 
 export default function Navigation() {
   const classes = useStyles()
+  const [state, setState] = React.useState({
+    left: false
+  })
+  const toggleDrawer = (side, open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return
+    }
+    setState({ ...state, [side]: open })
+  }
+
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Home', 'New', 'Test', 'Test2'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['Sign Out', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  const fullList = side => (
+    <div
+      className={classes.fullList}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Home', 'New', 'Test', 'Test2'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['Sign Out', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  )
 
   return (
     <div className={classes.root}>
@@ -74,11 +157,19 @@ export default function Navigation() {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={toggleDrawer('left', true)}
           >
+          <SwipeableDrawer
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+        onOpen={toggleDrawer('left', true)}
+      >
+        {sideList('left')}
+      </SwipeableDrawer>
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Analog Catalog
+            <Link className={classes.link} to="/all">Analog Catalog</Link>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

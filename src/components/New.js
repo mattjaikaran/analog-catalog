@@ -54,7 +54,7 @@ export default function New() {
     <form noValidate autoComplete="off">
       <div>
         <Grid className={classes.container}>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12}>
             <TextField
               id="artist-name"
               label="Artist Name"
@@ -64,7 +64,7 @@ export default function New() {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12}>
             <TextField
               id="album-name"
               label="Album Name"
@@ -74,7 +74,7 @@ export default function New() {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12}>
             <TextField
               id="release-year"
               label="Release Year"
@@ -84,7 +84,7 @@ export default function New() {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12}>
             <TextField
               id="album-runtime"
               label="Album Runtime"
@@ -94,10 +94,10 @@ export default function New() {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12}>
             <DatePicker />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12}>
             <TextField
               id="color"
               label="Color"
