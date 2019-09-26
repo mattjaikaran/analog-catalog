@@ -13,6 +13,10 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     width: 200,
   },
+  title: {
+    fontWeight: 300,
+    fontFamily: 'Roboto'
+  },
   button: {
     marginTop: '1rem'
   }
@@ -25,12 +29,13 @@ const Login = () => {
     password: '',
   })
 
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value })
+  const handleChange = name => e => {
+    setValues({ ...values, [name]: e.target.value })
   }
 
   return (
     <div>
+      <h3 className={classes.title}>Login</h3>
       <TextField
         id="email"
         label="Email"

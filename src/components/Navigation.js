@@ -1,14 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom'
+import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import MenuIcon from '@material-ui/icons/Menu'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
-import { fade, makeStyles } from '@material-ui/core/styles'
-import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -17,6 +15,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Create from '@material-ui/icons/Create';
+import AlbumIcon from '@material-ui/icons/Album';
+import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,10 +33,7 @@ const useStyles = makeStyles(theme => ({
     color: 'inherit'
   },
   list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
+    width: 250
   },
   title: {
     flexGrow: 1,
@@ -42,6 +42,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit'
   },
   search: {
     position: 'relative',
@@ -82,17 +86,19 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function Navigation() {
-  const classes = useStyles()
+export default function TemporaryDrawer() {
+  const classes = useStyles();
   const [state, setState] = React.useState({
     left: false
-  })
+  });
+
   const toggleDrawer = (side, open) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
     }
-    setState({ ...state, [side]: open })
-  }
+
+    setState({ ...state, [side]: open });
+  };
 
   const sideList = side => (
     <div
@@ -101,55 +107,57 @@ export default function Navigation() {
       onClick={toggleDrawer(side, false)}
       onKeyDown={toggleDrawer(side, false)}
     >
-      <List>
-        {['Home', 'New', 'Test', 'Test2'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['Sign Out', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+    <List>
+      <Link className={classes.link} to="/all">
+        <ListItem button>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText>Home</ListItemText>
+        </ListItem>
+      </Link>
+      <Link className={classes.link} to="/new">
+        <ListItem button>
+          <ListItemIcon>
+            <Create />
+          </ListItemIcon>
+          <ListItemText>New Vinyl</ListItemText>
+        </ListItem>
+      </Link>
+      <Link className={classes.link} to="/view-albums">
+        <ListItem button>
+          <ListItemIcon>
+            <AlbumIcon />
+          </ListItemIcon>
+          <ListItemText>View All</ListItemText>
+        </ListItem>
+      </Link>
+    </List>
+    <Divider />
+    <List>
+      <Link className={classes.link} to="/about">
+        <ListItem button>
+          <ListItemIcon>
+            <InfoIcon />
+          </ListItemIcon>
+          <ListItemText>About</ListItemText>
+        </ListItem>
+      </Link>
+      <Link className={classes.link} to="/">
+        <ListItem button>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText>Sign Out</ListItemText>
+        </ListItem>
+      </Link>
+    </List>
     </div>
   );
 
-  const fullList = side => (
-    <div
-      className={classes.fullList}
-      role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
-    >
-      <List>
-        {['Home', 'New', 'Test', 'Test2'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['Sign Out', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  )
 
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -159,33 +167,19 @@ export default function Navigation() {
             aria-label="open drawer"
             onClick={toggleDrawer('left', true)}
           >
-          <SwipeableDrawer
-        open={state.left}
-        onClose={toggleDrawer('left', false)}
-        onOpen={toggleDrawer('left', true)}
-      >
-        {sideList('left')}
-      </SwipeableDrawer>
-            <MenuIcon />
-          </IconButton>
+          <MenuIcon />
+        </IconButton>
+          <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
+            {sideList('left')}
+          </Drawer>
           <Typography className={classes.title} variant="h6" noWrap>
-            <Link className={classes.link} to="/all">Analog Catalog</Link>
+            <Link className={classes.link} to="/all">
+              Analog Catalog
+            </Link>
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
         </Toolbar>
       </AppBar>
+
     </div>
-  )
+  );
 }
