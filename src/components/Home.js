@@ -1,11 +1,9 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-
+import { withFirebase } from '../firebase'
 import Login from './Login'
 import Register from './Register'
-
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -21,11 +19,6 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles()
-  const onSubmit = e => {
-    e.preventDefault()
-    console.log('submit')
-  }
-
   return (
     <div>
       <Grid className={classes.container}>

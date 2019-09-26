@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -23,9 +23,13 @@ function createData(artistName, albumName, releaseYear, albumRuntime, dateBought
 }
 
 const rows = [
-  createData('The Beatles', 'Revolver', 1966, '35:01', '05/13/2014', 'ooh', 'white'),
-  createData('The Doors', 'Strange Days', 1967, '35:25', '06/25/2015', 'love me two times', 'purple'),
+  createData('The Beatles', 'Revolver', 1966, '35:01', '05/13/2014', 'ooh', 'White'),
+  createData('The Doors', 'Strange Days', 1967, '35:25', '06/25/2015', 'love me two times', 'Purple'),
 ]
+
+const renderList = () => {
+  console.log('render')
+}
 
 const geniusQuery = (artistName, albumName) => {
   const artist = artistName.replace(/\s+/g, '-')
@@ -35,6 +39,9 @@ const geniusQuery = (artistName, albumName) => {
 
 export default function All() {
   const classes = useStyles()
+  const [values, setValues] = useState({
+    vinyls: []
+  })
 
   return (
     <Paper className={classes.root}>
@@ -56,14 +63,24 @@ export default function All() {
               <TableCell component="th" scope="row">
                 {row.artistName}
               </TableCell>
-              <TableCell align="right">{row.albumName}</TableCell>
-              <TableCell align="right">{row.releaseYear}</TableCell>
-              <TableCell align="right">{row.albumRuntime}</TableCell>
-              <TableCell align="right">{row.dateBought}</TableCell>
               <TableCell align="right">
-                <a href={geniusQuery(row.artistName, row.albumName)} target="_blank" rel="noopener noreferrer">See More</a>
+                {row.albumName}
               </TableCell>
-              <TableCell align="right">{row.color}</TableCell>
+              <TableCell align="right">
+                {row.releaseYear}
+              </TableCell>
+              <TableCell align="right">
+                {row.albumRuntime}
+              </TableCell>
+              <TableCell align="right">
+                {row.dateBought}
+              </TableCell>
+              <TableCell align="right">
+                <a href={geniusQuery(row.artistName, row.albumName)} target="_blank" rel="noopener noreferrer">View Lyrics</a>
+              </TableCell>
+              <TableCell align="right">
+                {row.color}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

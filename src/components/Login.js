@@ -4,10 +4,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -27,36 +23,47 @@ const Login = () => {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
+    error: null
   })
 
   const handleChange = name => e => {
     setValues({ ...values, [name]: e.target.value })
   }
 
+  const onLogin = (e) => {
+    e.preventDefault()
+    console.log('login')
+  }
+
   return (
     <div>
-      <h3 className={classes.title}>Login</h3>
-      <TextField
-        id="email"
-        label="Email"
-        className={classes.textField}
-        value={values.email}
-        onChange={handleChange('email')}
-        margin="normal"
-      />
-      <br />
-      <TextField
-        id="password"
-        label="Password"
-        className={classes.textField}
-        value={values.password}
-        onChange={handleChange('password')}
-        margin="normal"
-      />
-    <br />
-    <Button variant="outlined" color="primary" className={classes.button}>
-      Login
-    </Button>
+      <h2 className={classes.title}>Login</h2>
+      <form onSubmit={onLogin}>
+        <TextField
+          id="email"
+          label="Email"
+          type="email"
+          className={classes.textField}
+          value={values.email}
+          onChange={handleChange('email')}
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="password"
+          label="Password"
+          type="password"
+          className={classes.textField}
+          value={values.password}
+          onChange={handleChange('password')}
+          margin="normal"
+        />
+        <br />
+        <Button type="submit" variant="outlined" color="primary" className={classes.button}>
+          Login
+        </Button>
+        {values.error && <p>{values.error.message}</p>}
+      </form>
     </div>
   )
 }

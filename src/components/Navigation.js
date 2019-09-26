@@ -7,19 +7,17 @@ import MenuIcon from '@material-ui/icons/Menu'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import HomeIcon from '@material-ui/icons/Home';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Create from '@material-ui/icons/Create';
 import AlbumIcon from '@material-ui/icons/Album';
 import InfoIcon from '@material-ui/icons/Info';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,14 +36,6 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
     fontWeight: 300,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'inherit'
   },
   search: {
     position: 'relative',
@@ -85,6 +75,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }))
+
 
 export default function TemporaryDrawer() {
   const classes = useStyles();
