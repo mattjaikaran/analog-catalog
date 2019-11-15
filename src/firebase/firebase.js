@@ -1,33 +1,48 @@
-import app from 'firebase/app';
-import 'firebase/auth';
+import app from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firebase-firestore'
 
+//switch over
 const config = {
-  apiKey: process.env.REACT_APP_PROD_API_KEY,
-  authDomain: process.env.REACT_APP_PROD_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_PROD_DATABASE_URL,
-  projectId: process.env.REACT_APP_PROD_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_PROD_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_PROD_MESSAGING_SENDER_ID,
-};
+  apiKey: "AIzaSyDzxG11EAQ14gfB2eRlqji3vuej4iSo5Z0",
+  authDomain: "analog-catalog.firebaseapp.com",
+  databaseURL: "https://analog-catalog.firebaseio.com",
+  projectId: "analog-catalog",
+  storageBucket: "analog-catalog.appspot.com",
+  messagingSenderId: "123946873651",
+  appId: "1:123946873651:web:a68841ca59d7425bb80446",
+  measurementId: "G-M9GX50X2N8"
+}
 
 class Firebase {
   constructor() {
-    app.initializeApp(config);
-    this.auth = app.auth();
+    app.initializeApp(config)
+    this.auth = app.auth()
+    this.db = app.firestore()
   }
 
-  doCreateUserWithEmailAndPassword = (email, password) =>
-    this.auth.createUserWithEmailAndPassword(email, password);
+  isInitialized() {
+    return new Promise(resolve => {
+      this.auth.onAuthStateChanged(resolve)
+    })
+  }
 
-  doSignInWithEmailAndPassword = (email, password) =>
-    this.auth.signInWithEmailAndPassword(email, password);
+  register = async (email, password) => {
+    return await this.auth.createUserWithEmailAndPassword(email, password)
+  }
 
-  doSignOut = () => this.auth.signOut();
+  login = async (email, password) => {
+    await this.auth.signInWithEmailAndPassword(email, password)
+  }
 
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
-  doPasswordUpdate = password =>
-    this.auth.currentUser.updatePassword(password);
+
+  logout = async () => await this.auth.signOut()
+
+  passwordReset = async email => await this.auth.sendPasswordResetEmail(email)
+
+  passwordUpdate = async password =>
+    await this.auth.currentUser.updatePassword(password)
 }
 
-export default Firebase;
+export default Firebase

@@ -4,8 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-
-import DatePicker from './DatePicker'
+import { DropzoneArea } from 'material-ui-dropzone'
 
 
 const useStyles = makeStyles(theme => ({
@@ -15,7 +14,8 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontWeight: 300,
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    margin: '2rem 0'
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -46,6 +46,7 @@ export default function New() {
     albumRuntime: '',
     dateBought: '',
     color: '',
+    files: []
   })
 
   const handleChange = name => e => {
@@ -54,14 +55,15 @@ export default function New() {
 
   const onSubmit = e => {
     e.preventDefault()
-    const { artistName, albumName, releaseYear, albumRuntime, dateBought, color } = values
+    const { artistName, albumName, releaseYear, albumRuntime, dateBought, color, files } = values
     const obj = {
       artistName,
       albumName,
       releaseYear,
       albumRuntime,
       dateBought,
-      color
+      color,
+      files
     }
     console.log(obj)
     {/* API POST request here */}
@@ -73,8 +75,11 @@ export default function New() {
       albumRuntime: '',
       dateBought: '',
       color: '',
+      files: []
     })
   }
+
+  const handleFile = (files) => setValues({ files })
 
   return (
     <form onSubmit={onSubmit} autoComplete="off">
@@ -154,7 +159,8 @@ export default function New() {
             </Grid>
           </Grid>
           <Grid item sm={6}>
-            <h3 className={classes.apiTitle}>Discogs API</h3>
+            <h3 className={classes.apiTitle}>Image Upload</h3>
+            <DropzoneArea onChange={handleFile} />
           </Grid>
         </Grid>
       </div>

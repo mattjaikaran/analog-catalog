@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import firebase from '../firebase'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,18 +19,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function createData(artistName, albumName, releaseYear, albumRuntime, dateBought, lyrics, color) {
-  return { artistName, albumName, releaseYear, albumRuntime, dateBought, lyrics, color }
+function createData(artistName, albumName, releaseYear, albumRuntime, dateBought, color) {
+  return { artistName, albumName, releaseYear, albumRuntime, dateBought, color }
 }
 
 const rows = [
-  createData('The Beatles', 'Revolver', 1966, '35:01', '05/13/2014', 'ooh', 'White'),
-  createData('The Doors', 'Strange Days', 1967, '35:25', '06/25/2015', 'love me two times', 'Purple'),
+  createData('The Beatles', 'Revolver', 1966, '35:01', '05/13/2014', 'White'),
+  createData('The Doors', 'Strange Days', 1967, '35:25', '06/25/2015', 'Purple'),
 ]
-
-const renderList = () => {
-  console.log('render')
-}
 
 const geniusQuery = (artistName, albumName) => {
   const artist = artistName.replace(/\s+/g, '-')
@@ -42,6 +39,12 @@ export default function All() {
   const [values, setValues] = useState({
     vinyls: []
   })
+
+  // useEffect(() => {
+  //   const db = firebase.firestore().collection('users').collection('vinyls')
+  //   console.log(db)
+  // })
+
 
   return (
     <Paper className={classes.root}>

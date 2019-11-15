@@ -1,7 +1,9 @@
 import React from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import firebase from '../firebase'
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Login = () => {
+const Login = (props) => {
   const classes = useStyles()
   const [values, setValues] = React.useState({
     email: '',
@@ -30,9 +32,14 @@ const Login = () => {
     setValues({ ...values, [name]: e.target.value })
   }
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault()
-    console.log('login')
+    try {
+      await firebase.login(values.email, values.password)
+      props.history.replace('/all')
+    } catch (err) {
+      alert(err.message)
+    }
   }
 
   return (

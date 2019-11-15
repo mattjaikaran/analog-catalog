@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import firebase from '../firebase'
 import { withFirebase } from '../firebase'
 import { compose } from 'recompose'
 
@@ -38,16 +39,16 @@ const Register = (props) => {
     setValues({ ...values, [name]: e.target.value })
   }
 
-  const onRegister = (e) => {
+  const onRegister = async (e) => {
     e.preventDefault()
-    const { email, password, error } = values
-    props.firebase
-      .doCreateUserWithEmailAndPassword(email, password)
-      .then(authUser => {
-        setValues({ ...values })
-        this.props.history.push('/all')
-      })
-      .catch(error => setValues({ error: error }))
+    try {
+      const { email, password, error } = values
+      await props.firebase.register(email, password)
+      setValues({ ...values })
+      props.history.replace('/all')
+    } catch (err) {
+      setValues({ error: err.message })
+    }
   }
 
   const isInvalid =
