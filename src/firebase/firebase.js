@@ -26,21 +26,14 @@ class Firebase {
       this.auth.onAuthStateChanged(resolve)
     })
   }
-
   register = async (email, password) => {
     return await this.auth.createUserWithEmailAndPassword(email, password)
   }
-
   login = async (email, password) => {
     await this.auth.signInWithEmailAndPassword(email, password)
   }
-
-
-
   logout = async () => await this.auth.signOut()
-
   passwordReset = async email => await this.auth.sendPasswordResetEmail(email)
-
   passwordUpdate = async password =>
     await this.auth.currentUser.updatePassword(password)
 }

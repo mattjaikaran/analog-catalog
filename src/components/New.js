@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react'
+import clsx from 'clsx'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { DropzoneArea } from 'material-ui-dropzone'
+import getReleases from '../utils/discogs'
 
 
 const useStyles = makeStyles(theme => ({
@@ -46,8 +46,11 @@ export default function New() {
     albumRuntime: '',
     dateBought: '',
     color: '',
-    files: []
+    imgList: [],
+    selectedImgSrc: ''
   })
+
+  useEffect(() => getReleases(values.albumName))
 
   const handleChange = name => e => {
     setValues({ ...values, [name]: e.target.value })
@@ -55,15 +58,14 @@ export default function New() {
 
   const onSubmit = e => {
     e.preventDefault()
-    const { artistName, albumName, releaseYear, albumRuntime, dateBought, color, files } = values
+    const { artistName, albumName, releaseYear, albumRuntime, dateBought, color } = values
     const obj = {
       artistName,
       albumName,
       releaseYear,
       albumRuntime,
       dateBought,
-      color,
-      files
+      color
     }
     console.log(obj)
     {/* API POST request here */}
@@ -75,11 +77,9 @@ export default function New() {
       albumRuntime: '',
       dateBought: '',
       color: '',
-      files: []
     })
+    // this.props.history.push('/all')
   }
-
-  const handleFile = (files) => setValues({ files })
 
   return (
     <form onSubmit={onSubmit} autoComplete="off">
@@ -159,8 +159,11 @@ export default function New() {
             </Grid>
           </Grid>
           <Grid item sm={6}>
-            <h3 className={classes.apiTitle}>Image Upload</h3>
-            <DropzoneArea onChange={handleFile} />
+            <h3 className={classes.apiTitle}>Select Vinyl</h3>
+            <Grid item xs={12}>
+              {'sup'}
+              {values.imgList ? values.imgList : 'sup'}
+            </Grid>
           </Grid>
         </Grid>
       </div>
